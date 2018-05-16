@@ -1,226 +1,108 @@
+import  pygame 
+import util
 
-class Piece:
 
-    def __init__(self, player):
-        self.player = player
-        self._VAL = 0
+class Koma(object):
+          
+	def __init__(self,front_img_lst,dir_lst,pos,name,owner):
+  
+		
+		self.name = name
+		self.owner = owner
 
-    def retValue(self):
-        raise NotImplementedError
+		self.dir_lst = dir_lst 
 
-    def changePlayer(self):
-        if self.player == 1:
-            self.player = 2
-        else:
-            self.player = 1
-        
-class Chick(Piece):
+		self.width = 80
+		self.height = 80
 
-    def __init__(self, player):
-        super(Chick, self).__init__(player)
-        self._VAL = 8
+		self.nariFlag = False
 
-    def retValue(self):
-        return self._VAL
+		img = pygame.image.load(front_img_lst["player"])
+		player_img = pygame.transform.scale(img,(self.width,self.height)) 
 
-    def getNextMove(self):
-        if self.player == 1:
-            nextMove = (
-                (), (), (),
-                (0,), (1,), (2,),
-                (3,), (4,), (5,),
-                (6,), (7,), (8,),
-            )
+		img = pygame.image.load(front_img_lst["cpu"])
+		cpu_img = pygame.transform.scale(img,(self.width,self.height)) 
 
-        else:
-            nextMove = (
-                (3,), (4,), (5,),
-                (6,), (7,), (8,),
-                (9,), (10,), (11,),
-                (), (), (),
-            )
+		self.image_lst = {"player":player_img,"cpu":cpu_img}
+		self.front_image = self.image_lst[self.owner]
 
-        return nextMove
+		self.image = self.front_image
 
-        
-    def __str__(self):
-        if self.player == 1:
-            return "ひ"
-        else:
-            return "ヒ"
+		self.posX = pos[0]
+		self.posY = pos[1]
 
-    def __repr__(self):
-        if self.player == 1:
-            return "ひ"
-        else:
-            return "ヒ"
+		self.rect = self.image.get_rect() 
+		self.rect.x = 280+(self.posX-1) * self.width
+		self.rect.y = (self.posY-1) * self.height
+	
+	def ownerChange(self,owner_name):
+		self.owner = owner_name
+		self.imageSwitch()
+		
+	def imageSwitch(self):
+		self.front_image = self.image_lst[self.owner]
+		self.image = self.front_image
 
-class Hen(Piece):
+	def getPos(self):	
+		return [self.posX,self.posY]
 
-    def __init__(self, player):
-        super(Hen, self).__init__(player)
-        self._VAL = 80
+	def posInit(self):	
+		self.posX = -1		
+		self.posY = -1		
+		self.rect.x = -1
+		self.rect.y = -1
+	
+	def posUpdate(self,pos):
+		self.posX = pos[0]
+		self.posY = pos[1]
 
-    def retValue(self):
-        return self._VAL
+		self.rect.x = 280+(self.posX - 1) * self.width
+		self.rect.y = (self.posY - 1) * self.height
 
-    def getNextMove(self):
-        if self.player == 1:
-            nextMove = (
-                (1,3),
-                (0,2,4),
-                (1,5),
-                (0,1,4,6),
-                (0,1,2,3,5,7),
-                (1,2,4,8),
-                (3,4,7,9),
-                (3,4,5,6,8,10),
-                (4,5,7,11),
-                (6,7,10),
-                (6,7,8,9,11),
-                (7,8,10),
-            )
-        else:
-            nextMove = (
-                (1,3,4),
-                (0,2,3,4,5),
-                (1,4,5),
-                (0,4,6,7),
-                (1,3,5,6,7,8),
-                (2,4,7,8),
-                (3,7,9,10),
-                (4,6,8,9,10,11),
-                (5,7,10,11),
-                (6,10),
-                (7,9,11),
-                (8,10),
-            )
+class Ou(Koma):
+	def __init__(self,front_img_lst,dir_lst,pos,name,owner):
+		Koma.__init__(self,front_img_lst,dir_lst,pos,name,owner)
+class Fu(Koma):
+	def __init__(self,front_img_lst,nari_img_lst,special_dir_lst,nari_dir_lst,pos,name,owner):
+		self.special_dir_lst = special_dir_lst
+		dir_lst = self.special_dir_lst[owner]
 
-        return nextMove
+		Koma.__init__(self,front_img_lst,dir_lst,pos,name,owner)
+		self.nari_dir_lst = nari_dir_lst
 
-    def __str__(self):
-        if self.player == 1:
-            return "に"
-        else:
-            return "ニ"
+		img = pygame.image.load(nari_img_lst["player"])
+		player_nari_img = pygame.transform.scale(img,(self.width,self.height)) 
 
-    def __repr__(self):
-        if self.player == 1:
-            return "に"
-        else:
-            return "ニ"
+		img = pygame.image.load(nari_img_lst["cpu"])
+		cpu_nari_img = pygame.transform.scale(img,(self.width,self.height)) 
 
-class Elephant(Piece):
+		self.nari_image_lst = {"player":player_nari_img,"cpu":cpu_nari_img}
+		
+		self.nari_image = self.nari_image_lst[self.owner]
+		
+	def turn(self):
+		if self.image == self.front_image:
+			self.image = self.nari_image
+		else:
+			self.image = self.front_image
+	
+	def nari(self):
+		self.nariFlag = True
+		self.turn()
+		self.dir_lst = self.nari_dir_lst
+		
+	def imageSwitch(self):
+		self.front_image = self.image_lst[self.owner]
+		self.image = self.front_image
 
-    def __init__(self, player):
-        super(Elephant, self).__init__(player)
-        self._VAL = 30
-        self.nextMove = (
-            (4,),
-            (3,5,),
-            (4,),
-            (1,7,),
-            (0,6,2,8,),
-            (1,7,),
-            (4,10,),
-            (3,9,5,11,),
-            (4,10,),
-            (7,),
-            (6,8,),
-            (7,),
-        )
+		self.nari_image = self.nari_image_lst[self.owner] 
 
-    def retValue(self):
-        return self._VAL
+	def dirChange(self):
+		self.dir_lst = self.special_dir_lst[self.owner]
 
-    def getNextMove(self):
-        return self.nextMove
-            
+	def ownerChange(self,owner_name):
+		self.owner = owner_name
+		self.imageSwitch()
+		self.dirChange()
+		self.nariFlag = False
 
-    def __str__(self):
-        if self.player == 1:
-            return "ぞ"
-        else:
-            return "ゾ"
-
-    def __repr__(self):
-        if self.player == 1:
-            return "ぞ"
-        else:
-            return "ゾ"
-
-class Giraffe(Piece):
-
-    def __init__(self, player):
-        super(Giraffe, self).__init__(player)
-        self._VAL = 30
-        self.nextMove = (
-            (3,1,),
-            (0,4,2,),
-            (1,5,),
-            (6,0,4,),
-            (3,7,1,5,),
-            (4,8,2,),
-            (9,3,7,),
-            (6,10,4,8,),
-            (7,11,5,),
-            (6,10,),
-            (9,7,11,),
-            (10,8,),
-        )
-
-    def retValue(self):
-        return self._VAL
-
-    def getNextMove(self):
-        return self.nextMove
-
-    def __str__(self):
-        if self.player == 1:
-            return "き"
-        else:
-            return "キ"
-
-    def __repr__(self):
-        if self.player == 1:
-            return "き"
-        else:
-            return "キ"
-
-class Lion(Piece):
-
-    def __init__(self, player):
-        super(Lion, self).__init__(player)
-        self._VAL = 1500
-        self.nextMove = (
-            (3,1,4,),
-            (0,3,4,2,5,),
-            (1,4,5,),
-            (0,6,1,4,7,),
-            (0,3,6,1,7,2,5,8,),
-            (1,4,7,2,8,),
-            (3,9,4,7,10,),
-            (3,6,9,4,10,5,8,11,),
-            (4,7,10,5,11,),
-            (6,7,10,),
-            (6,9,7,8,11,),
-            (7,10,8,),
-        )
-
-    def retValue(self):
-        return self._VAL
-
-    def getNextMove(self):
-        return self.nextMove
-
-    def __str__(self):
-        if self.player == 1:
-            return "ら"
-        else:
-            return "ラ"
-
-    def __repr__(self):
-        if self.player == 1:
-            return "ら"
-        else:
-            return "ラ"
