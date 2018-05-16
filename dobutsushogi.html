@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Let's Catch the lion!</title>
+  <script src="js/jquery-3.3.1.min.js"></script>
+  <script src="js/bootstrap.min.js"></script>
+  <link rel="stylesheet" href="css/bootstrap.min.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+	<h2>Let's Catch the lion!</h2>
+	<table>
+		<tr>
+			<td class="cell" id="0" data-chess="hi" data-player="b">
+				<img class="img" src="img/hiB.png"/>
+			</td>
+			<td class="cell" id="1" data-chess="ou" data-player="b">
+				<img class="img" src="img/ouB.png"/>
+			</td>
+			<td class="cell" id="2" data-chess="kaku" data-player="b">
+				<img class="img" src="img/kakuB.png"/>
+			</td>
+		</tr>
+		<tr>
+			<td class="cell" id="3">
+				<img class="img" src=""/>
+			</td>
+			<td class="cell" id="4" data-chess="fu" data-player="b">
+				<img class="img" src="img/fuB.png"/>
+			</td>
+			<td class="cell" id="5">
+				<img class="img" src=""/>
+			</td>
+		</tr>
+		<tr>
+			<td class="cell" id="6">
+				<img class="img" src=""/>
+			</td>
+			<td class="cell" id="7" data-chess="fu" data-player="a">
+				<img class="img" src="img/fuA.png"/>
+			</td>
+			<td class="cell" id="8">
+				<img class="img" src=""/>
+			</td>
+		</tr>
+		<tr>
+			<td class="cell" id="10" data-chess="kaku" data-player="a">
+				<img class="img" src="img/kakuA.png"/>
+			</td>
+			<td class="cell" id="11" data-chess="ou" data-player="a">
+				<img class="img" src="img/ouA.png"/>
+			</td>
+			<td class="cell" id="12" data-chess="hi" data-player="a">
+				<img class="img" src="img/hiA.png"/>
+			</td>
+		</tr>
+	</table>
+	<div class="endgame">
+		<div class="text"></div>
+	</div>
+    <div class="selectSym">
+    <p>Select symbol:</p>
+      <button onClick="selectSym('X')">X</button>
+      <button onClick="selectSym('O')">O</button>
+    </div>
+	<button class="btn btn-md replay-btn" onClick="startGame()">Replay</button>
+
+  <script src="script.js"></script>
+</body>
+</html>

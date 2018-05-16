@@ -13,7 +13,7 @@ const winCombos =[
 ];
 
 const cells = document.querySelectorAll('.cell');
-//startGame();
+startGame();
 
 function selectSym(sym){
   huPlayer = sym;

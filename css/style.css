@@ -1,0 +1,74 @@
+td {
+  border:  3px solid #333;
+  height:  100px;
+  width:  100px;
+  text-align:  center;
+  vertical-align:  middle;
+  font-family:  "Comic Sans MS", cursive, sans-serif;
+  font-size:  70px;
+  cursor: pointer;
+}
+
+table {
+  width:500px;
+  border-collapse: collapse;
+  display:block;
+  margin: 10px auto 0 auto;
+  top: 50px;
+}
+
+
+.endgame {
+  display: none;
+  width:  200px;
+  top: 120px;
+  background-color: rgba(205, 133, 63, 0.8);
+  left: 50%;
+  margin-left: -100px;
+  padding-top: 50px;
+  padding-bottom: 50px;
+  text-align: center;
+  border-radius: 5px;
+  color: white;
+  font-size: 2em; 
+}
+
+.selectSym{
+  display: none;
+  width: 220px;
+  top: 110px;
+  background-color: rgba(205, 133, 63, 0.8);
+  position: absolute;
+  left: 50%;
+  margin-left: -110px;
+  padding-top: 10px;
+  padding-bottom: 50px;
+  text-align: center;
+  border-radius: 5px;
+  color: yellow;
+  font-size: 2em; 
+}
+
+.selectSym button{
+  font-family: "Comic Sans MS", cursive, sans-serif;
+  font-size:  50px;
+  width: 70px;
+}
+
+.selectSym  button:first-of-type {
+  margin-right: 10px;
+}
+.selectSym  button:last-of-type {
+  margin-left: 10px;
+}
+
+.replay-btn{
+    margin: 10px auto 0 auto;
+    display: block !important;
+}
+
+h2{
+  font-family:  "Comic Sans MS", cursive, sans-serif;
+  font-size:  40px;
+  text-align: center;
+}
