@@ -253,7 +253,7 @@ def main():
 	motigoma2= Motigoma((180,0),(-80,100))
 
 	player = Human(motigoma)
-	cpu = Computer(motigoma2)
+	cpu = Human(motigoma2)
 
 	screen.fill(black)
 	ban.draw(screen)

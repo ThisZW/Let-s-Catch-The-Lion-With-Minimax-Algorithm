@@ -3,9 +3,6 @@ import copy
 import util 
 import koma as syougi_koma 
 
-def testPrint():
-	print ("it is si module")
-
 class AI(object):
 	def __init__(self,cpu):
 		self.cpu = cpu
@@ -327,7 +324,6 @@ class AI(object):
 		elif self.escapeOu(ban): 
 			print ("escape ou")
 			return self.escapeOu(ban)
-
 		elif self.safetyRandomSelect(ban):
 			print ("safetyRandomSelect")
 			return self.safetyRandomSelect(ban)

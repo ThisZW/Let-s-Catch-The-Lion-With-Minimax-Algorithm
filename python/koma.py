@@ -62,6 +62,7 @@ class Koma(object):
 class Ou(Koma):
 	def __init__(self,front_img_lst,dir_lst,pos,name,owner):
 		Koma.__init__(self,front_img_lst,dir_lst,pos,name,owner)
+		
 class Fu(Koma):
 	def __init__(self,front_img_lst,nari_img_lst,special_dir_lst,nari_dir_lst,pos,name,owner):
 		self.special_dir_lst = special_dir_lst
