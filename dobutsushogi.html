@@ -14,46 +14,46 @@
 	<h2>Let's Catch the lion!</h2>
 	<table>
 		<tr>
-			<td class="cell" id="0" data-chess="hi" data-player="b">
+			<td class="cell" id="11" data-chess="hiB" data-player="b">
 				<img class="img" src="img/hiB.png"/>
 			</td>
-			<td class="cell" id="1" data-chess="ou" data-player="b">
+			<td class="cell" id="12" data-chess="ouB" data-player="b">
 				<img class="img" src="img/ouB.png"/>
 			</td>
-			<td class="cell" id="2" data-chess="kaku" data-player="b">
+			<td class="cell" id="13" data-chess="kakuB" data-player="b">
 				<img class="img" src="img/kakuB.png"/>
 			</td>
 		</tr>
 		<tr>
-			<td class="cell" id="3">
+			<td class="cell" id="21" data-chess="empty">
 				<img class="img" src=""/>
 			</td>
-			<td class="cell" id="4" data-chess="fu" data-player="b">
+			<td class="cell" id="22" data-chess="fuB" data-player="b">
 				<img class="img" src="img/fuB.png"/>
 			</td>
-			<td class="cell" id="5">
+			<td class="cell" id="23" data-chess="empty">
 				<img class="img" src=""/>
 			</td>
 		</tr>
 		<tr>
-			<td class="cell" id="6">
+			<td class="cell" id="31" data-chess="empty">
 				<img class="img" src=""/>
 			</td>
-			<td class="cell" id="7" data-chess="fu" data-player="a">
+			<td class="cell" id="32" data-chess="fuA" data-player="a">
 				<img class="img" src="img/fuA.png"/>
 			</td>
-			<td class="cell" id="8">
+			<td class="cell" id="33" data-chess="empty">
 				<img class="img" src=""/>
 			</td>
 		</tr>
 		<tr>
-			<td class="cell" id="10" data-chess="kaku" data-player="a">
+			<td class="cell" id="41" data-chess="kakuA" data-player="a">
 				<img class="img" src="img/kakuA.png"/>
 			</td>
-			<td class="cell" id="11" data-chess="ou" data-player="a">
+			<td class="cell" id="42" data-chess="ouA" data-player="a">
 				<img class="img" src="img/ouA.png"/>
 			</td>
-			<td class="cell" id="12" data-chess="hi" data-player="a">
+			<td class="cell" id="43" data-chess="hiA" data-player="a">
 				<img class="img" src="img/hiA.png"/>
 			</td>
 		</tr>
@@ -61,13 +61,13 @@
 	<div class="endgame">
 		<div class="text"></div>
 	</div>
-    <div class="selectSym">
-    <p>Select symbol:</p>
-      <button onClick="selectSym('X')">X</button>
-      <button onClick="selectSym('O')">O</button>
+    <div class="selectMode">
+    <p>Select Your Play Mode:</p>
+      <button class="btn btn-md" onClick="playWithPlayer">Player VS. Player</button>
+      <button class="btn btn-md" onClick="playWithAi">Player VS. AI</button>
     </div>
 	<button class="btn btn-md replay-btn" onClick="startGame()">Replay</button>
 
-  <script src="script.js"></script>
+  <script src="js/main.js"></script>
 </body>
 </html>
