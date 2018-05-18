@@ -67,3 +67,24 @@ h2{
   font-size:  40px;
   text-align: center;
 }
+
+.player-1-click{
+  
+}
+
+.player-1-clicked{
+  border:5px solid;
+}
+
+.player-1-go{
+  background-color: #57bc13;
+  opacity: 0.8;
+}
+
+.player-2-click{
+
+}
+
+.player-2-go{
+
+}

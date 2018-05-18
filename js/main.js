@@ -29,23 +29,27 @@ var main = {
 			console.log(this.chessboard[i].chess.movable);
 			console.log(i);
 			if( this.chessboard[i].chess !== 'none' && this.chessboard[i].chess.player == "a"){
-				$('#' + i).addClass('player-1-click');
+					$('#' + i).addClass('player-1-click');
 			}
 		}
 	},
 
 	player1SelectAction : function(i){
 		$.each(this.chessboard[i].chess.movable, function( key, result ) {
-		  if(main.chessboard[result(i)].chess !== undefined && main.chessboard[result(i)].chess.chess == 'empty'){
+		  if(main.chessboard[result(i)] !== undefined && main.chessboard[result(i)].chess.player !== "a"){// && main.chessboard[result(i)].chess.chess == 'empty'){
 		  	console.log('empty at' + result(i));
+		  	$('#' + result(i)).addClass('player-1-go');
 		  }
 		});
 	},
 
 	player1GoAction : function(i){
-		$.each(this.chessboard[i].chess.movable, function( key, value ) {
+		var chess = this.chessboard[result('.player-1-clicked').attr('id')];
+		console.log(result$('.player-1-clicked').attr('id'));
+		console.log('chess');
+		/*$.each(this.chessboard[i].chess.movable, function( key, value ) {
 		  console.log(value(i));
-		});
+		});*/
 	},
 
 	player2SelectAction : function(i){
@@ -227,15 +231,30 @@ playWithPlayer();
 
 $(document).ready(function(){
 	$('.player-1-click').click(function(){
+		//add/remove class here, if anything that needs chessboard object, write in
+		//main.player1SelectAction.
+		$('.chessboard').find('*').removeClass('player-1-clicked');
+		$(this).addClass('player-1-clicked');
+		$(this).removeClass('player-1-click');
+		$('.chessboard').find('*').removeClass('player-1-go');
 		main.player1SelectAction($(this).attr('id'));
 	});
-	$('.player-2-click').click(function(){
-		main.player2SelectAction($(this).attr('id'));
-	});
+
+
 	$('.player-1-go').click(function(){
 		main.player1GoAction($(this).attr('id'));
+		$(this).removeClass('player-1-clicked');
 	});
+
+	$('.player-2-click').click(function(){
+		$('.chessboard')
+		main.player2SelectAction($(this).attr('id'));
+	});
+
+
+
 	$('.player-2-go').click(function(){
 		main.player2GoAction($(this).attr('id'));
 	});
+
 })
