@@ -1,7 +1,6 @@
 td {
-  border:  3px solid #333;
-  height:  100px;
-  width:  100px;
+  height:  115px;
+  width:  118px;
   text-align:  center;
   vertical-align:  middle;
   font-family:  "Comic Sans MS", cursive, sans-serif;
@@ -10,13 +9,21 @@ td {
 }
 
 table {
-  width:500px;
+  background-image: url('background.jpg');
+  width: 395px;
   border-collapse: collapse;
   display:block;
   margin: 10px auto 0 auto;
+  padding: 27px 25px;
   top: 50px;
 }
 
+img{
+  height:80px;
+  width:80px;
+  margin:auto;
+  display:block;
+}
 
 .endgame {
   display: none;
@@ -67,24 +74,65 @@ h2{
   font-size:  40px;
   text-align: center;
 }
+ 
+.player-1-text{
+  text-align: center;
+  display:none;
+}
+
+.player-2-text{
+  text-align: center;
+  display:none;
+}
 
 .player-1-click{
   
 }
 
 .player-1-clicked{
-  border:5px solid;
+  border:2px solid;
 }
 
 .player-1-go{
-  background-color: #57bc13;
+  background-color: #66ff66;
   opacity: 0.8;
 }
 
-.player-2-click{
-
+.player-2-clicked{
+  border:2px solid;
 }
 
 .player-2-go{
+  background-color: #1ab2ff;
+  opacity: 0.8;
+}
 
+[data-player="a"] > img{
+  background-color: #66ff66;
+  opacity: 0.9;
+}
+
+[data-player="b"] > img{
+  background-color: #1ab2ff;
+  opacity: 0.9;
+}
+
+p {
+  font-size:20px;
+  font-weight:800;
+}
+
+.player-1-text{
+  color: #00ff55;
+}
+
+.player-2-text{
+  color: #33ccff;
+}
+
+.gameover-text{
+  display:none;
+  text-align:center;
+  font-size:50px;
+  font-family:  "Comic Sans MS", cursive, sans-serif;
 }

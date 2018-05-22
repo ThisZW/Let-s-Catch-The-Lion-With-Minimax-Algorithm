@@ -12,6 +12,8 @@
 
 <body>
 	<h2>Let's Catch the lion!</h2>
+	<p class="player-1-text">Player 1's turn</p>
+	<p class="player-2-text">Player 2's turn</p>
 	<table class="chessboard">
 		<tr>
 			<td class="cell" id="11" data-chess="hiB" data-player="b">
@@ -26,24 +28,24 @@
 		</tr>
 		<tr>
 			<td class="cell" id="21" data-chess="empty">
-				<img class="img" src=""/>
+				<img class="img" src="img/blank.png"/>
 			</td>
 			<td class="cell" id="22" data-chess="fuB" data-player="b">
 				<img class="img" src="img/fuB.png"/>
 			</td>
 			<td class="cell" id="23" data-chess="empty">
-				<img class="img" src=""/>
+				<img class="img" src="img/blank.png"/>
 			</td>
 		</tr>
 		<tr>
 			<td class="cell" id="31" data-chess="empty">
-				<img class="img" src=""/>
+				<img class="img" src="img/blank.png"/>
 			</td>
 			<td class="cell" id="32" data-chess="fuA" data-player="a">
 				<img class="img" src="img/fuA.png"/>
 			</td>
 			<td class="cell" id="33" data-chess="empty">
-				<img class="img" src=""/>
+				<img class="img" src="img/blank.png"/>
 			</td>
 		</tr>
 		<tr>
@@ -66,7 +68,9 @@
       <button class="btn btn-md" onClick="playWithPlayer">Player VS. Player</button>
       <button class="btn btn-md" onClick="playWithAi">Player VS. AI</button>
     </div>
-	<button class="btn btn-md replay-btn" onClick="startGame()">Replay</button>
+
+   	<h1 class="gameover-text">Game is Over!</h1>
+	<!-- <button class="btn btn-md replay-btn" onClick="startGame()">Replay</button> -->
 
   <script src="js/main.js"></script>
 </body>
