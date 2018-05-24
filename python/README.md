@@ -1,1 +1,0 @@
-# Dobutsu-Shogi-Team
