@@ -53,7 +53,6 @@ var main = {
 		}
 		setChess(chess.empty, oldId);
 		this.chessboard[oldId] = chess.empty;
-
 	},
 
 	player2Init : function(){
@@ -91,12 +90,162 @@ var main = {
 		this.chessboard[oldId] = chess.empty;
 	},
 
+	AiInit : function(){
+		$('.player-1-text').hide();
+		$('.player-2-text').show();
+		$('.player-2-text').text("Ai's turn");
+		this.AiAction();
+	},
+
+	AiAction : function(){
+		var result = this.minimax(3, 'b', this.chessboard);
+		var from = result[1][0];
+		var to = result[1][1];
+		setTimeout(function(){
+			main.AiMove(from, to);
+			main.player1Init();
+		}, 500);
+	},
+
+	AiMove : function(oldId, newId){
+		var oldChess = this.chessboard[oldId];
+		console.log(oldChess);
+		this.checkWinning(newId, "a");
+		if(oldChess.chess == "fu" && newId > 40){
+			setChess(chess.bigfuB, newId);
+			this.chessboard[newId] = chess.bigfuB;
+		} else {
+			setChess(oldChess, newId);
+			this.chessboard[newId] = oldChess;
+		}
+		setChess(chess.empty, oldId);
+		this.chessboard[oldId] = chess.empty;
+		//this.getAllChess('');
+	},
+
+
 	checkWinning : function(i, player){
 		console.log('test ' + this.chessboard[i].chess + ' ' + player);
 		if(this.chessboard[i].chess == "ou" && this.chessboard[i].player == player){
 			$('.gameover-text').show();
 		}
-	}
+	},
+
+	minimax : function(depth, player, board){
+			// Get available moves
+		var nextMoves = new Array();
+		for (c in board){
+			if(board[c] != undefined && board[c].player == player){
+				$.each(board[c].movable, function(i, val){
+					if(board[val(c)] != undefined && board[val(c)].player != player){
+						nextMoves.push([c, val(c)]);
+					}
+				});
+			}
+		}
+		console.log(nextMoves);
+		// Set maximizing and minimizing value for player
+		var best;
+
+		if(player === 'b') {
+	 		best = -1000;
+		} else {
+	  		best = 1000;
+		} 
+
+		var current;
+		var bestMove = -1;
+		// Rank board at lowest depth
+		if(depth === 0) {
+	  		best = this.evaluateBoard(board);
+		} else {
+	  		for(var i = 0; i < nextMoves.length; i++) {
+	  			var m = nextMoves[i];
+	    		var newGameState = this.simulateMove(board, nextMoves[0], nextMoves[1]);
+	    		if(player === 'b') {
+	      			current = this.minimax(depth - 1, 'a', newGameState)[0];
+			   		if(current > best) {
+			        	best = current;
+			        	bestMove = m;
+			      	}
+			    } 
+	    		else {
+		      		current = this.minimax(depth - 1, 'a', newGameState)[0];
+		      		if(current < best) {
+		        		best = current;
+		        		bestMove = m;
+		      		}
+	    		}
+	  		}
+		}
+		return [best, bestMove];
+	},
+
+	evaluateBoard : function(player, board){
+		var sum = 0;
+		var enemy = this.determineEnemy(player);
+		for (c in board){
+			if(board[c].player == player){
+				sum += board[c].weight;
+				$.each(board[c].movable, function(i, val){
+					if(board[val(c)] != undefined && board[val(c)] != player){
+						sum += board[c].mobility;
+						console.log(board[c].mobility);
+					}
+				});
+			}
+			else {
+				sum -= board[c].weight;
+				$.each(board[c].movable, function(i, val){
+					if(board[val(c)] != undefined && board[val(c)] != enemy){
+						sum -= board[c].mobility;
+					}
+				});
+			}
+		}
+
+		sum += this.isKillable(player, board) * 50;
+
+		return sum;
+		//console.log(sum);
+	},
+
+	isKillable : function(player, board){
+		var enemy = this.determineEnemy(player);
+		var enemyOu;
+		for (c in board){
+			if (board[c].player == enemy && board[c].chess == 'ou')
+			enemyOu = c;
+		}
+		var enemyOuDanger = 0;
+		for (c in board){
+			if (board[c].player == player){
+				$.each(board[c].movable, function(i, val){
+					if (val(c) == enemyOu){
+						enemyOuDanger ++;
+					}
+				});
+			}
+		}
+		return enemyOuDanger;
+	},
+
+	determineEnemy : function (player){
+		var enemy;
+		if (player == 'a')
+			enemy = 'b';
+		else enemy = 'a';
+		return enemy;
+	},
+
+	simulateMove: function(oldBoard, from, to){
+		var board = jQuery.extend({}, oldBoard);
+		board[to] = board[from];
+		board[from] = chess.empty;
+		return board;
+	},
+
+
 };
 
 
@@ -141,6 +290,7 @@ var chess = {
 		src : "img/blank.png",
 		chess : "empty",
 		player : "none",
+		weight : 0,
 		movable : {},
 	},
 
@@ -148,6 +298,8 @@ var chess = {
 		src : "img/fuB.png",
 		chess : 'fu',
 		player : 'b',
+		weight : 15,
+		mobility: 1,
 		movable : {
 			down : move.down,
 		},
@@ -157,6 +309,8 @@ var chess = {
 		src : "img/fuA.png",
 		chess : 'fu',
 		player : 'a',
+		weight : 15,
+		mobility: 1,
 		movable : {
 			up : move.up,
 		}
@@ -166,6 +320,8 @@ var chess = {
 		src : "img/ouB.png",
 		chess : 'ou',
 		player : 'b',
+		weight : 300,
+		mobility: 8,
 		movable : {
 			up : move.up,
 			upRight : move.upRight,
@@ -182,6 +338,8 @@ var chess = {
 		src : "img/ouA.png",
 		chess : 'ou',
 		player : 'a',
+		weight : 300,
+		mobility: 8,
 		movable : {
 			up : move.up,
 			upRight : move.upRight,
@@ -198,6 +356,8 @@ var chess = {
 		src : "img/hiB.png",
 		chess : 'hi',
 		player : 'b',
+		weight : 40,
+		mobility: 6,
 		movable : {
 			up : move.up,
 			right : move.right,
@@ -210,6 +370,8 @@ var chess = {
 		src : "img/hiA.png",
 		chess : 'hi',
 		player : 'a',
+		weight : 40,
+		mobility: 6,
 		movable : {
 			up : move.up,
 			right : move.right,
@@ -222,6 +384,8 @@ var chess = {
 		src : "img/kakuB.png",
 		chess : 'kaku',
 		player : 'b',
+		weight : 25,
+		mobility: 3,
 		movable : {
 			upRight : move.upRight,
 			downRight : move.downRight,
@@ -234,6 +398,8 @@ var chess = {
 		src : "img/kakuA.png",
 		chess : 'kaku',
 		player : 'a',
+		weight : 25,
+		mobility: 3,
 		movable : {
 			upRight : move.upRight,
 			downRight : move.downRight,
@@ -246,6 +412,8 @@ var chess = {
 		src : "img/bigfuA.png",
 		chess : 'bigfuA',
 		player : 'a',
+		weight : 35,
+		mobility: 7,
 		movable : {
 			up : move.up,
 			upRight : move.upRight,
@@ -260,6 +428,8 @@ var chess = {
 		src : "img/bigfuB.png",
 		chess : 'bigfuB',
 		player : 'b',
+		weight : 35,
+		mobility: 7,
 		movable : {
 			up : move.up,
 			right : move.right,
@@ -273,11 +443,6 @@ var chess = {
 };
 
 
-
-
-var ai = {
-//
-}
 
 
 function setChess(chess, id){
@@ -298,7 +463,7 @@ function playWithAi(){
 }
 
 
-playWithPlayer();
+playWithAi();
 
 
 $(document).on('click', '.chessboard', function(){
@@ -318,7 +483,11 @@ $(document).on('click', '.chessboard', function(){
 		$(this).addClass('player-1-click');
 		$('.chessboard').find('*')
 			.removeClass(['player-1-clicked', 'player-1-go', 'player-1-click']).off('click');
-		main.player2Init();
+		if(main.mode == "ai"){
+			main.AiInit();
+		} else {
+			main.player2Init();
+		}
 	});
 
 	$('.player-2-click').click(function(){
